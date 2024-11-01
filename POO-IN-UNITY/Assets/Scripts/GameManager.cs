@@ -16,6 +16,8 @@ public class GameManager : MonoBehaviour
     public GameObject cardPrefab;  // Prefab para as cartas
     public GameObject cardTextPrefab;  // Prefab for the text
 
+    List<Card> cartasDoJogador1;
+    List<Card> cartasDoJogador2;
 
     // Método chamado ao iniciar o jogo
     void Start()
@@ -51,15 +53,17 @@ public class GameManager : MonoBehaviour
         }
 
         // Distribui 3 cartas para o jogador 1
-        List<Card> cardsPlayer1 = deck.Distribute(1);
+        List<Card> cardsPlayer1 = deck.Distribute(3);
         player1.GetCards(cardsPlayer1);
         Debug.Log($"{player1.name}");
         Debug.Log($"{player1.name} recebeu: {string.Join(", ", cardsPlayer1.ConvertAll(c => c.DisplayCardInfo()))}");
+        cartasDoJogador1 = cardsPlayer1;
 
         // Distribui 3 cartas para o jogador 2
-        List<Card> cardsPlayer2 = deck.Distribute(1);
+        List<Card> cardsPlayer2 = deck.Distribute(3);
         player2.GetCards(cardsPlayer2);
         Debug.Log($"{player2.name} recebeu: {string.Join(", ", cardsPlayer2.ConvertAll(c => c.DisplayCardInfo()))}");
+        cartasDoJogador2 = cardsPlayer2;
 
      
         // Exibir as cartas na cena
@@ -72,7 +76,7 @@ public class GameManager : MonoBehaviour
         for (int i = 0; i < cards.Count; i++)
         {
             // Instanciar a carta na posição do jogador
-            GameObject cardObj = Instantiate(cardPrefab, playerPosition + new Vector3(0, 0.5f + i * 0.3f,  1f), Quaternion.identity);
+            GameObject cardObj = Instantiate(cardPrefab, playerPosition + new Vector3(0.5f + i * 1.2f, 0,  1f), Quaternion.identity);
             cardObj.name = cards[i].DisplayCardInfo();  // Nome da carta
 
             // (Opcional) Adicionar texto ou material para representar a carta
@@ -109,5 +113,20 @@ public class GameManager : MonoBehaviour
         {
             Debug.LogError("JSON file not found.");
         }
+    }
+
+    private void Update()
+    {
+        GetOponentCard(cartasDoJogador1);
+    }
+
+    void GetOponentCard(List<Card> cartas)
+    {
+        if (Input.GetKeyDown(KeyCode.O))
+        {
+            
+            Debug.Log(cartas.Count);
+        }
+        
     }
 }
