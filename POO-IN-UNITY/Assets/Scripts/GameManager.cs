@@ -4,6 +4,7 @@ using UnityEngine.UI; // Importante para usar a UI
 
 public class GameManager : MonoBehaviour
 {
+
     public Deck deck;  // Referência ao baralho
     public string player1Name = "Jogador 1";  // Nome do primeiro jogador
     public string player2Name = "Jogador 2";  // Nome do segundo jogador
@@ -18,6 +19,8 @@ public class GameManager : MonoBehaviour
 
     List<Card> cartasDoJogador1;
     List<Card> cartasDoJogador2;
+
+    
 
     // Método chamado ao iniciar o jogo
     void Start()
@@ -117,16 +120,71 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        GetOponentCard(cartasDoJogador1);
-    }
-
-    void GetOponentCard(List<Card> cartas)
-    {
         if (Input.GetKeyDown(KeyCode.O))
         {
-            
-            Debug.Log(cartas.Count);
+            GetOponentCard(cartasDoJogador2, player1, cartasDoJogador1, player2);
         }
         
+
+        
+        
+    }
+
+    void GetOponentCard(List<Card> playerCard1, Player player1, List<Card> playerCard2, Player player2)
+    {
+        //CARTAS PLAYER 1
+
+        // Pega a primeira carta do oponente (ou uma carta aleatória)
+        Card takenCard1 = playerCard1[Random.Range(0, playerCard1.Count)]; // Aqui você pode implementar lógica para escolher uma carta específica
+
+        // Remove a carta do oponente
+        playerCard1.Remove(takenCard1);
+
+        // Adiciona a carta ao jogador atual
+        //currentPlayer.GetCards(new List<Card> { takenCard });
+
+        Debug.Log($"{player1.name} pegou a carta: {takenCard1.DisplayCardInfo()} do oponente.");
+
+
+        //CARTAS PLAYER 2
+
+        // Pega a primeira carta do oponente (ou uma carta aleatória)
+        Card takenCard2 = playerCard2[Random.Range(0, playerCard2.Count)]; // Aqui você pode implementar lógica para escolher uma carta específica
+
+        // Remove a carta do oponente
+        playerCard2.Remove(takenCard2);
+
+        // Adiciona a carta ao jogador atual
+        //currentPlayer.GetCards(new List<Card> { takenCard });
+
+        Debug.Log($"{player2.name} pegou a carta: {takenCard2.DisplayCardInfo()} do oponente.");
+
+
+        //Verificar se nao tem cartas
+        if (playerCard1.Count == 0 || playerCard2.Count == 0)
+        {
+            Debug.Log("O oponente não possui cartas para pegar.");
+        }
+
+        CheckCardWinner(takenCard1, takenCard2);
+
+    }
+
+    void CheckCardWinner(Card player1Card, Card player2Card)
+    {
+        int result = GameRules.CompareCards(player1Card, player2Card);
+
+        if (result == 1)
+        {
+            Debug.Log($"{player1.name} venceu com a carta: {player1Card.DisplayCardInfo()}");
+        }
+        else if (result == -1)
+        {
+            Debug.Log($"{player2.name} venceu com a carta: {player2Card.DisplayCardInfo()}");
+        }
+        else
+        {
+            Debug.Log("Empate!");
+        }
     }
 }
