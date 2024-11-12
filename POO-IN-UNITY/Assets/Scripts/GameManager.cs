@@ -82,8 +82,32 @@ public class GameManager : MonoBehaviour
             GameObject cardObj = Instantiate(cardPrefab, playerPosition + new Vector3(0.5f + i * 1.2f, 0,  1f), Quaternion.identity);
             cardObj.name = cards[i].DisplayCardInfo();  // Nome da carta
 
+            Renderer material = cardObj.GetComponent<Renderer>();
+
+            //Trocar cor com base no naipe
+            if (cardObj.name.Contains("Paus"))
+            {
+                material.material.color = Color.blue;
+            }
+            else if (cardObj.name.Contains("Ouros"))
+            {
+                material.material.color = Color.yellow;
+            }
+            else if (cardObj.name.Contains("Espadas"))
+            {
+                material.material.color = Color.green;
+            }
+            else if (cardObj.name.Contains("Copas"))
+            {
+                material.material.color = Color.red;
+            }
+            else
+            {
+                Debug.Log("Algo deu errado na cor");
+            }
             // (Opcional) Adicionar texto ou material para representar a carta
-            cardObj.GetComponent<Renderer>().material.color = Color.red; // Exemplo de cor
+            //cardObj.GetComponent<Renderer>().material.color = Color.red; // Exemplo de cor
+            
 
             // Instantiate the text for the card
             GameObject textObj = Instantiate(cardTextPrefab, cardObj.transform);
@@ -176,15 +200,22 @@ public class GameManager : MonoBehaviour
 
         if (result == 1)
         {
+            player1Object.GetComponent<Renderer>().material.color = Color.green;
+            player2Object.GetComponent<Renderer>().material.color = Color.red;
             Debug.Log($"{player1.name} venceu com a carta: {player1Card.DisplayCardInfo()}");
+            
         }
         else if (result == -1)
         {
+            player2Object.GetComponent<Renderer>().material.color = Color.green;
+            player1Object.GetComponent<Renderer>().material.color = Color.red;
             Debug.Log($"{player2.name} venceu com a carta: {player2Card.DisplayCardInfo()}");
+            
         }
         else
         {
             Debug.Log("Empate!");
         }
     }
+
 }
