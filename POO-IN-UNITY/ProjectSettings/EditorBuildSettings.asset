@@ -8,5 +8,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Photon.unity
     guid: 88eaf174893a4d347b1cc377bca46c46
+  - enabled: 1
+    path: Assets/Scenes/GameOver.unity
+    guid: 2f9c7b6f85696cc45a9a562f4b180b25
   m_configObjects: {}
   m_UseUCBPForAssetBundles: 0
